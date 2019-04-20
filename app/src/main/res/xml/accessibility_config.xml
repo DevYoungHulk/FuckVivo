@@ -5,4 +5,4 @@
     android:canRetrieveWindowContent="true"
     android:description="@string/service_desc"
     android:notificationTimeout="100"
-    android:packageNames="com.android.packageinstaller,com.vivo.secime.service" />
+    android:packageNames="com.android.packageinstaller,com.vivo.secime.service,com.android.packageinstaller,com.coloros.safecenter,com.bbk.account" />
