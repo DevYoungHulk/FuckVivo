@@ -1,5 +1,5 @@
 #### APK直接编译运行
-[Dryrun](https://github.com/cesarferreira/dryrun) 
+[Dryrun](https://github.com/cesarferreira/dryrun)     
 dryrun https://github.com/DevYoungHulk/FuckVivo.git
 
 #### 使用
