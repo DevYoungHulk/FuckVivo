@@ -2,6 +2,9 @@
     <string name="app_name">FuckVivo</string>
     <string name="label_service_name">VIVO/OPPO自动填充安装密码</string>
     <string name="service_desc">自动填充安装密码，并点击确定和继续安装按钮，完成安装后打开APP</string>
-    <string name="hint_password">输入vivo账号的密码</string>
+    <string name="hint_password">输入vivo/oppo账号的密码</string>
     <string name="toast_save_success">保存成功</string>
+    <string name="hint_homer_id">homer 账号</string>
+    <string name="hint_homer_pwd">homer 密码</string>
+    <string name="save_pwd">保存密码</string>
 </resources>

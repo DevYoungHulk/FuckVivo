@@ -15,11 +15,24 @@
         android:hint="@string/hint_password"
         android:inputType="textPassword" />
 
+    <EditText
+        android:id="@+id/et_homer_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_homer_id" />
+
+    <EditText
+        android:id="@+id/et_homer_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_homer_pwd"
+        android:inputType="textPassword" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="savePassword"
-        android:text="保存密码" />
+        android:text="@string/save_pwd" />
 
     <Button
         android:layout_width="wrap_content"
