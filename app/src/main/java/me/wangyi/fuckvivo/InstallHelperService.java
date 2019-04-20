@@ -11,6 +11,13 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class InstallHelperService extends AccessibilityService {
 
@@ -22,20 +29,43 @@ public class InstallHelperService extends AccessibilityService {
         if (rootNode == null) {
             return;
         }
-        String packageName = event.getPackageName().toString();
-        Log.v(TAG, packageName);
-        if ("com.vivo.secime.service".equals(packageName) ||
-                "com.coloros.safecenter".equals(packageName) ||
-                "com.bbk.account".equals(packageName) ||
-                "com.android.systemui".equals(packageName)) {
-            String password = PreferencesUtils.getString(getApplicationContext(),
-                    PreferencesUtils.KEY_PASSWORD, "");
-            if (!TextUtils.isEmpty(password)) {
-                fillPassword(rootNode, password);
-            }
-        }
-        installConfirm(rootNode);
-        rootNode.recycle();
+        Observable.just(rootNode).debounce(500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AccessibilityNodeInfo>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(AccessibilityNodeInfo i) {
+                        String packageName = i.getPackageName().toString();
+                        Log.v(TAG, packageName);
+                        if ("com.vivo.secime.service".equals(packageName) ||
+                                "com.coloros.safecenter".equals(packageName) ||
+                                "com.bbk.account".equals(packageName) ||
+                                "com.android.systemui".equals(packageName)) {
+                            String password = PreferencesUtils.getString(getApplicationContext(),
+                                    PreferencesUtils.KEY_PASSWORD, "");
+                            if (!TextUtils.isEmpty(password)) {
+                                fillPassword(i, password);
+                            }
+                        }
+                        installConfirm(i);
+                        i.recycle();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     private boolean fillPassword(AccessibilityNodeInfo rootNode, String password) {
@@ -97,7 +127,12 @@ public class InstallHelperService extends AccessibilityService {
                             Log.d(TAG, "点击了按钮 -> " + text);
                             return true;
                         } else {
-                            Log.e(TAG, "模拟点击 操作失败 -> " + text);
+                            AccessibilityNodeInfo parent = nodeInfo.getParent();
+                            if (null != parent && nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
+                                Log.e(TAG, "模拟点击 parent -> " + text);
+                            } else {
+                                Log.e(TAG, "模拟点击 操作失败 -> " + text + "parent is null (" + (parent == null) + ")");
+                            }
                         }
                     }
 
@@ -109,6 +144,7 @@ public class InstallHelperService extends AccessibilityService {
         Log.d(TAG, "=================================");
         return false;
     }
+
 
     @Override
     public void onInterrupt() {
