@@ -19,14 +19,16 @@
         android:id="@+id/et_homer_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_homer_id" />
+        android:hint="@string/hint_homer_id"
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/et_homer_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_homer_pwd"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:visibility="gone" />
 
     <Button
         android:layout_width="wrap_content"
